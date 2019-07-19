@@ -9,8 +9,8 @@ for ``acme.example.com``:
 
 ::
 
-    acme     IN  NS  ns.acme.example.com.
-    ns.acme  IN  A   1.2.3.4
+    acme     IN  NS  ns-acme.example.com.
+    ns-acme  IN  A   1.2.3.4
 
 where 1.2.3.4 is the IP of the server where certbot will be run. Port
 53 needs to be available for use, so a DNS server cannot be run there.
@@ -50,6 +50,6 @@ Just run ``certbot certonly`` and use the
     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     Select the appropriate number [1-3] then [enter] (press 'c' to cancel): 1
     Plugins selected: Authenticator certbot-dns-standalone:dns-standalone, Installer None
-    Please enter in your domain name(s) (comma and/or space separated)  (Enter 'c' to cancel): ...
+    Please enter in your domain name(s) (comma and/or space separated)  (Enter 'c' to cancel): *.example.net
 
 Certbot currently needs to be run as root as it needs to bind to port 53.
