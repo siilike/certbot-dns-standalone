@@ -52,4 +52,12 @@ Just run ``certbot certonly`` and use the
     Plugins selected: Authenticator certbot-dns-standalone:dns-standalone, Installer None
     Please enter in your domain name(s) (comma and/or space separated)  (Enter 'c' to cancel): *.example.net
 
+Non-interactive usage:
+
+::
+
+    certbot --non-interactive --agree-tos --email certmaster@example.com certonly --preferred-challenges dns --authenticator certbot-dns-standalone:dns-standalone -d example.com
+
+To renew the certificates add ``certbot renew`` to ``crontab``.
+
 Certbot currently needs to be run as root as it needs to bind to port 53.
