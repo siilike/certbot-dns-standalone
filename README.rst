@@ -4,16 +4,23 @@ Standalone DNS Authenticator plugin for Certbot
 This is a plugin that uses an integrated DNS server to respond to the
 ``_acme-challenge`` records. Simultaneous challenges are supported.
 
-A subdomain with the relevant NS and A records needs to be set up, e.g.
-for ``acme.example.com``:
+A subdomain needs to be created that defines certbot as its nameserver,
+e.g. for ``acme.example.com``:
 
 ::
 
     acme     IN  NS  ns-acme.example.com.
     ns-acme  IN  A   1.2.3.4
 
-where 1.2.3.4 is the IP of the server where certbot will be run. Port
-53 needs to be available for use, so a DNS server cannot be run there.
+where 1.2.3.4 is the IP of the server where certbot will be run. This
+configuration directs any requests to ``*.acme.example.com`` to 1.2.3.4
+where the plugin will respond with the relevant challenge.
+
+Any server can be used as long as port 53 is available which means that
+a DNS server cannot be run at that particular IP at the same time.
+
+The plugin binds to all available interfaces. The validation usually
+takes less than a second.
 
 Next, ``_acme-challenge`` for the domain that the certificate is
 requested for must be configured as a CNAME record to
@@ -22,6 +29,11 @@ requested for must be configured as a CNAME record to
 ::
 
     _acme-challenge  IN  CNAME  example.net.acme.example.com.
+
+This means that any requests to ``_acme-challenge.example.net`` should
+be performed to ``example.net.acme.example.com`` instead which is where
+our certbot runs. No further changes to the DNS of ``example.net`` are
+necessary.
 
 Installation
 ============
