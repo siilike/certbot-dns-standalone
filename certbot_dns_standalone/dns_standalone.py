@@ -35,6 +35,7 @@ class Authenticator(dns_common.DNSAuthenticator):
     def add_parser_arguments(cls, add):  # pylint: disable=arguments-differ
         super(Authenticator, cls).add_parser_arguments(add, default_propagation_seconds=0)
         add('address', help='IP address to bind to.', default='0.0.0.0')
+        add('port', help='Port to bind to.', default='53')
 
     def _setup_credentials(self):
         return
@@ -50,7 +51,7 @@ class Authenticator(dns_common.DNSAuthenticator):
 
         if self.udp_server is None:
             try:
-                self.udp_server = DNSServer(self.resolver, port=53, address=self.conf('address'),
+                self.udp_server = DNSServer(self.resolver, port=int(self.conf('port')), address=self.conf('address'),
                                             logger=dnsLogger)
                 self.udp_server.start_thread()
             except Exception as e:
