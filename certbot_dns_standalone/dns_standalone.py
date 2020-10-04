@@ -4,9 +4,9 @@ import logging
 import copy
 
 from dnslib import RR
-from dnslib.server import DNSServer,DNSHandler,BaseResolver,DNSLogger,UDPServer
+from dnslib.server import DNSServer,DNSHandler,BaseResolver,DNSLogger,UDPServer,TCPServer
 
-from socket import AF_INET6
+from socket import AF_INET6,SOCK_DGRAM
 
 import zope.interface
 
@@ -54,9 +54,10 @@ class Authenticator(dns_common.DNSAuthenticator):
 
         if self.servers is None:
             self.servers = []
+            active_udp_server = False
             error = None
 
-            for Server in [UDP6Server, UDPServer]:
+            for Server in [TCP6Server, TCPServer, UDP6Server, UDPServer]:
                 # Try IPv6 version first since it may listen on IPv4 as well.
                 try:
                     if Server.address_family == AF_INET6:
@@ -68,11 +69,13 @@ class Authenticator(dns_common.DNSAuthenticator):
                                            server=Server, logger=dnsLogger)
                         server.start_thread()
                         self.servers.append(server)
+                        if Server.socket_type == SOCK_DGRAM:
+                            active_udp_server = True
                 except Exception as e:
                     error = e
 
-            if not self.servers:
-                # Re-raise the exception when no server was started successfully.
+            if not active_udp_server:
+                # Re-raise the exception when no UDP server was started successfully.
                 raise errors.PluginError('Error starting DNS server: {0}'.format(error))
 
     def _cleanup(self, domain, validation_name, validation):
@@ -110,4 +113,7 @@ class _AcmeResolver(BaseResolver):
         return reply
 
 class UDP6Server(UDPServer):
+    address_family = AF_INET6
+
+class TCP6Server(TCPServer):
     address_family = AF_INET6
