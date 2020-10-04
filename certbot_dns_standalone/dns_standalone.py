@@ -4,7 +4,9 @@ import logging
 import copy
 
 from dnslib import RR
-from dnslib.server import DNSServer,DNSHandler,BaseResolver,DNSLogger
+from dnslib.server import DNSServer,DNSHandler,BaseResolver,DNSLogger,UDPServer
+
+from socket import AF_INET6
 
 import zope.interface
 
@@ -29,12 +31,13 @@ class Authenticator(dns_common.DNSAuthenticator):
     def __init__(self, *args, **kwargs):
         super(Authenticator, self).__init__(*args, **kwargs)
         self.resolver = None
-        self.udp_server = None
+        self.servers = None
 
     @classmethod
     def add_parser_arguments(cls, add):  # pylint: disable=arguments-differ
         super(Authenticator, cls).add_parser_arguments(add, default_propagation_seconds=0)
         add('address', help='IP address to bind to.', default='0.0.0.0')
+        add('ipv6-address', help='IPv6 address to bind to.', default=None)
         add('port', help='Port to bind to.', default='53')
 
     def _setup_credentials(self):
@@ -49,17 +52,33 @@ class Authenticator(dns_common.DNSAuthenticator):
 
         self.resolver.addToken(validation)
 
-        if self.udp_server is None:
-            try:
-                self.udp_server = DNSServer(self.resolver, port=int(self.conf('port')), address=self.conf('address'),
-                                            logger=dnsLogger)
-                self.udp_server.start_thread()
-            except Exception as e:
-                raise errors.PluginError('Error starting DNS server: {0}'.format(e))
+        if self.servers is None:
+            self.servers = []
+            error = None
+
+            for Server in [UDP6Server, UDPServer]:
+                # Try IPv6 version first since it may listen on IPv4 as well.
+                try:
+                    if Server.address_family == AF_INET6:
+                        address = self.conf('ipv6-address')
+                    else:
+                        address = self.conf('address')
+                    if address is not None:
+                        server = DNSServer(self.resolver, port=int(self.conf('port')), address=address,
+                                           server=Server, logger=dnsLogger)
+                        server.start_thread()
+                        self.servers.append(server)
+                except Exception as e:
+                    error = e
+
+            if not self.servers:
+                # Re-raise the exception when no server was started successfully.
+                raise errors.PluginError('Error starting DNS server: {0}'.format(error))
 
     def _cleanup(self, domain, validation_name, validation):
-        if self.udp_server:
-            self.udp_server.stop()
+        if self.servers:
+            for server in self.servers:
+                server.stop()
 
 
 class _AcmeResolver(BaseResolver):
@@ -89,3 +108,6 @@ class _AcmeResolver(BaseResolver):
                 reply.add_answer(a)
 
         return reply
+
+class UDP6Server(UDPServer):
+    address_family = AF_INET6
