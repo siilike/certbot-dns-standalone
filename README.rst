@@ -68,6 +68,6 @@ Non-interactive usage:
 
 ::
 
-    certbot --non-interactive --agree-tos --email certmaster@example.com certonly --preferred-challenges dns --authenticator certbot-dns-standalone:dns-standalone --certbot-dns-standalone:dns-standalone-address=0.0.0.0 --certbot-dns-standalone:dns-standalone-port=53 -d example.com
+    certbot --non-interactive --agree-tos --email certmaster@example.com certonly --preferred-challenges dns --authenticator certbot-dns-standalone:dns-standalone --certbot-dns-standalone:dns-standalone-address=0.0.0.0 --certbot-dns-standalone:dns-standalone-ipv6-address=:: --certbot-dns-standalone:dns-standalone-port=53 -d example.com
 
 To renew the certificates add ``certbot renew`` to ``crontab``.
