@@ -37,7 +37,7 @@ class Authenticator(dns_common.DNSAuthenticator):
     def add_parser_arguments(cls, add):  # pylint: disable=arguments-differ
         super(Authenticator, cls).add_parser_arguments(add, default_propagation_seconds=0)
         add('address', help='IP address to bind to.', default='0.0.0.0')
-        add('ipv6-address', help='IPv6 address to bind to.', default=None)
+        add('ipv6-address', help='IPv6 address to bind to.', default='::')
         add('port', help='Port to bind to.', default='53')
 
     def _setup_credentials(self):

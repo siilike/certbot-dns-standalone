@@ -68,6 +68,22 @@ Non-interactive usage:
 
 ::
 
-    certbot --non-interactive --agree-tos --email certmaster@example.com certonly --preferred-challenges dns --authenticator certbot-dns-standalone:dns-standalone --certbot-dns-standalone:dns-standalone-address=0.0.0.0 --certbot-dns-standalone:dns-standalone-ipv6-address=:: --certbot-dns-standalone:dns-standalone-port=53 -d example.com
+    certbot --non-interactive --agree-tos --email certmaster@example.com certonly \
+      --preferred-challenges dns --authenticator certbot-dns-standalone:dns-standalone \
+      --certbot-dns-standalone:dns-standalone-address=0.0.0.0 \
+      --certbot-dns-standalone:dns-standalone-ipv6-address=:: \
+      --certbot-dns-standalone:dns-standalone-port=53 \
+      -d example.com
 
 To renew the certificates add ``certbot renew`` to ``crontab``.
+
+Parameters supported
+--------------------
+
+Parameters can be specified as ``--certbot-dns-standalone:dns-standalone-PARAMETER=VALUE``.
+
+Supported parameters are:
+
+  * ``address`` -- IPv4 address to bind to, defaults to ``0.0.0.0``
+  * ``ipv6-address`` -- IPv6 address to bind to, defaults to ``::``
+  * ``port`` -- port to use, defaults to 53
