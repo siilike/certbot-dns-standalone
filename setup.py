@@ -4,7 +4,7 @@ from setuptools import find_packages
 with open('README.rst') as file:
     long_description = file.read()
 
-version = '1.0.2'
+version = '1.0.3'
 
 # Remember to update local-oldest-requirements.txt when changing the minimum
 # acme/certbot version.

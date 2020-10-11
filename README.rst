@@ -84,6 +84,13 @@ Parameters can be specified as ``--certbot-dns-standalone:dns-standalone-PARAMET
 
 Supported parameters are:
 
-  * ``address`` -- IPv4 address to bind to, defaults to ``0.0.0.0``
-  * ``ipv6-address`` -- IPv6 address to bind to, defaults to ``::``
-  * ``port`` -- port to use, defaults to 53
+* ``address`` -- IPv4 address to bind to, defaults to ``0.0.0.0``
+* ``ipv6-address`` -- IPv6 address to bind to, defaults to ``::``
+* ``port`` -- port to use, defaults to 53
+
+Third party projects
+====================
+
+Third party projects integrating certbot-dns-standalone:
+
+* `CertCache <https://github.com/93million/certcache>`_
