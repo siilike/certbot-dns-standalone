@@ -46,7 +46,7 @@ Usage
 =====
 
 Just run ``certbot certonly`` and use the
-``certbot-dns-standalone:dns-standalone`` plugin:
+``dns-standalone`` plugin:
 
 ::
 
@@ -61,7 +61,7 @@ Just run ``certbot certonly`` and use the
     3: Place files in webroot directory (webroot)
     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     Select the appropriate number [1-3] then [enter] (press 'c' to cancel): 1
-    Plugins selected: Authenticator certbot-dns-standalone:dns-standalone, Installer None
+    Plugins selected: Authenticator dns-standalone, Installer None
     Please enter in your domain name(s) (comma and/or space separated)  (Enter 'c' to cancel): *.example.net
 
 Non-interactive usage:
@@ -69,10 +69,10 @@ Non-interactive usage:
 ::
 
     certbot --non-interactive --agree-tos --email certmaster@example.com certonly \
-      --preferred-challenges dns --authenticator certbot-dns-standalone:dns-standalone \
-      --certbot-dns-standalone:dns-standalone-address=0.0.0.0 \
-      --certbot-dns-standalone:dns-standalone-ipv6-address=:: \
-      --certbot-dns-standalone:dns-standalone-port=53 \
+      --preferred-challenges dns --authenticator dns-standalone \
+      --dns-standalone-address=0.0.0.0 \
+      --dns-standalone-ipv6-address=:: \
+      --dns-standalone-port=53 \
       -d example.com
 
 To renew the certificates add ``certbot renew`` to ``crontab``.
@@ -80,7 +80,7 @@ To renew the certificates add ``certbot renew`` to ``crontab``.
 Parameters supported
 --------------------
 
-Parameters can be specified as ``--certbot-dns-standalone:dns-standalone-PARAMETER=VALUE``.
+Parameters can be specified as ``--dns-standalone-PARAMETER=VALUE``. For older certbot versions it should be ``--certbot-dns-standalone:dns-standalone-PARAMETER=VALUE``.
 
 Supported parameters are:
 
