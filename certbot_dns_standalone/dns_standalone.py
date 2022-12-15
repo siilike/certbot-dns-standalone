@@ -8,8 +8,6 @@ from dnslib.server import DNSServer,DNSHandler,BaseResolver,DNSLogger,UDPServer,
 
 from socket import AF_INET6,SOCK_DGRAM
 
-import zope.interface
-
 from certbot import errors
 from certbot import interfaces
 from certbot.plugins import dns_common
@@ -18,8 +16,6 @@ logger = logging.getLogger(__name__)
 dnsLogger = DNSLogger("truncated,error",False)
 
 
-@zope.interface.implementer(interfaces.IAuthenticator)
-@zope.interface.provider(interfaces.IPluginFactory)
 class Authenticator(dns_common.DNSAuthenticator):
     """Standalone DNS Authenticator
 

@@ -4,17 +4,16 @@ from setuptools import find_packages
 with open('README.rst') as file:
     long_description = file.read()
 
-version = '1.0.3'
+version = '1.1'
 
 # Remember to update local-oldest-requirements.txt when changing the minimum
 # acme/certbot version.
 install_requires = [
     'acme>=0.21.1',
-    'certbot>=0.21.1',
+    'certbot>=2.1.0',
     'dnslib>=0.9.0',
     'mock',
     'setuptools',
-    'zope.interface',
 ]
 
 docs_extras = [

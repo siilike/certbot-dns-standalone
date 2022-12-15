@@ -35,8 +35,12 @@ Named Arguments
 ---------------
 
 ========================================  =====================================
-``--dns-standalone-address``              IP address to bind to
+``--dns-standalone-address``              IPv4 address to bind to
                                           (default: 0.0.0.0)
+``--dns-standalone-ipv6-address``         IPv6 address to bind to
+                                          (default: ::)
+``--dns-standalone-port``                 Port to use
+                                          (default: 53)
 ========================================  =====================================
 
 
@@ -48,8 +52,10 @@ Examples
              ``1.2.3.4``
 
    certbot certonly \\
-     --dns-standalone \\
+     --preferred-challenges dns --authenticator dns-standalone \\
      --dns-standalone-address 1.2.3.4 \\
+     --dns-standalone-ipv6-address=:: \\
+     --dns-standalone-port=53 \\
      -d example.com
 
 .. code-block:: bash
@@ -57,7 +63,7 @@ Examples
              ``www.example.com`` using the IP ``1.2.3.4``
 
    certbot certonly \\
-     --dns-standalone \\
+     --preferred-challenges dns --authenticator dns-standalone \\
      --dns-standalone-address 1.2.3.4 \\
      -d example.com \\
      -d www.example.com
