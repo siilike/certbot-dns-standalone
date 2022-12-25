@@ -12,11 +12,11 @@ e.g. for ``acme.example.com``:
     acme     IN  NS  ns-acme.example.com.
     ns-acme  IN  A   1.2.3.4
 
-where 1.2.3.4 is the IP of the server where certbot will be run. This
-configuration directs any requests to ``*.acme.example.com`` to 1.2.3.4
+where ``1.2.3.4`` is the IP of the server where certbot will be run. This
+configuration directs any requests to ``*.acme.example.com`` to ``1.2.3.4``
 where the plugin will respond with the relevant challenge.
 
-Any server can be used as long as port 53 is available which means that
+Any server can be used as long as port ``53`` is available which means that
 a DNS server cannot be run at that particular IP at the same time.
 
 The plugin binds to all available interfaces. The validation usually
@@ -77,8 +77,30 @@ Non-interactive usage:
 
 To renew the certificates add ``certbot renew`` to ``crontab``.
 
-Parameters supported
---------------------
+Usage with Docker
+=================
+
+First, build the certbot image:
+
+::
+
+    docker build -t certbot /path/to/certbot-dns-standalone/
+
+Next, the certificate:
+
+::
+
+    docker run -it --rm --name certbot \
+      -v "/etc/letsencrypt:/etc/letsencrypt" -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
+      -p 8080:80 -p 1.2.3.4:53:53/tcp -p 1.2.3.4:53:53/udp \
+      certbot certonly
+
+where ``1.2.3.4`` is the IP address to use for responding the challenges. HTTP challenges should be directed to port ``8080``.
+
+``/etc/letsencrypt`` and ``/var/lib/letsencrypt`` need to be mapped to permanent storage.
+
+Supported parameters
+====================
 
 Parameters can be specified as ``--dns-standalone-PARAMETER=VALUE``. For older certbot versions it should be ``--certbot-dns-standalone:dns-standalone-PARAMETER=VALUE``.
 
@@ -86,7 +108,7 @@ Supported parameters are:
 
 * ``address`` -- IPv4 address to bind to, defaults to ``0.0.0.0``
 * ``ipv6-address`` -- IPv6 address to bind to, defaults to ``::``
-* ``port`` -- port to use, defaults to 53
+* ``port`` -- port to use, defaults to ``53``
 
 Third party projects
 ====================
