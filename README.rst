@@ -50,7 +50,7 @@ You can then run certbot as follows:
     certbot --non-interactive --agree-tos --email certmaster@example.com certonly \
       --preferred-challenges dns --authenticator dns-standalone \
       --dns-standalone-address=1.2.3.4 \
-      -d example.com -d '*.example.com'
+      -d example.net -d '*.example.net'
 
 Secondly, if you already run a DNS server you could configure it to forward
 all requests to ``*.acme.example.com`` to another IP/port instead where you
@@ -84,7 +84,7 @@ You can then run certbot as follows:
       --preferred-challenges dns --authenticator dns-standalone \
       --dns-standalone-address=127.0.0.1 \
       --dns-standalone-port=5555 \
-      -d example.com -d '*.example.com'
+      -d example.net -d '*.example.net'
 
 By default the plugin binds to all available interfaces. The validation usually
 takes less than a second.
