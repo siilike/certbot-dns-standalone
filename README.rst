@@ -8,9 +8,29 @@ modified.
 Installation
 ============
 
+pip
+---
+
 ::
 
     # pip3 install certbot certbot-dns-standalone
+
+snap
+----
+
+::
+
+    # snap install certbot certbot-dns-standalone
+    # snap set certbot trust-plugin-with-root=ok
+    # snap connect certbot:plugin certbot-dns-standalone
+    # snap connect certbot-dns-standalone:certbot-metadata certbot:certbot-metadata
+
+Debian
+------
+
+::
+
+    # apt-get install certbot python3-certbot-dns-standalone
 
 Usage
 =====
