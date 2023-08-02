@@ -68,7 +68,7 @@ You can then run certbot as follows:
 ::
 
     certbot --non-interactive --agree-tos --email certmaster@example.com certonly \
-      --preferred-challenges dns --authenticator dns-standalone \
+      --authenticator dns-standalone \
       --dns-standalone-address=1.2.3.4 \
       -d example.net -d '*.example.net'
 
@@ -101,7 +101,7 @@ You can then run certbot as follows:
 ::
 
     certbot --non-interactive --agree-tos --email certmaster@example.com certonly \
-      --preferred-challenges dns --authenticator dns-standalone \
+      --authenticator dns-standalone \
       --dns-standalone-address=127.0.0.1 \
       --dns-standalone-port=5555 \
       -d example.net -d '*.example.net'
