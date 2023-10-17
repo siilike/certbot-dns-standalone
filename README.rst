@@ -32,6 +32,17 @@ Debian
 
     # apt-get install certbot python3-certbot-dns-standalone
 
+Docker
+------
+
+::
+
+    docker run -it --rm --name certbot \
+      -v "/etc/letsencrypt:/etc/letsencrypt" \
+      -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
+      -p 53:53 \
+      ghcr.io/siilike/certbot-dns-standalone:master certonly
+
 Usage
 =====
 
@@ -120,7 +131,7 @@ First, build the certbot image:
 
     docker build -t certbot /path/to/certbot-dns-standalone/
 
-Next, the certificate:
+Next, run certbot:
 
 ::
 
