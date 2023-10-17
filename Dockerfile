@@ -1,13 +1,7 @@
-FROM debian:bookworm-20221219-slim
+FROM certbot/certbot
 
-RUN apt-get -y update
-RUN apt-get -y install certbot python3-certbot-dns-standalone
-RUN apt-get clean
+EXPOSE 53
 
-EXPOSE 80 443 53
+COPY . /opt/certbot/src/standalone-dns
 
-ENTRYPOINT [ "certbot" ]
-
-VOLUME /etc/letsencrypt /var/lib/letsencrypt
-
-WORKDIR /opt/certbot
+RUN python tools/pip_install.py --no-cache-dir --editable /opt/certbot/src/standalone-dns
