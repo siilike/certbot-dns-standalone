@@ -2,8 +2,7 @@
 
 import os
 import unittest
-
-import mock
+from unittest import mock
 
 from certbot import errors
 from certbot.plugins import dns_test_common
