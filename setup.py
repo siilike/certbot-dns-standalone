@@ -12,7 +12,6 @@ install_requires = [
     'acme>=0.21.1',
     'certbot>=2.1.0',
     'dnslib>=0.9.0',
-    'mock',
     'setuptools',
 ]
 
