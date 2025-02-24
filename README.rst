@@ -1,7 +1,7 @@
 Standalone DNS Authenticator plugin for Certbot
 ===============================================
 
-This is a plugin that uses an integrated DNS server to respond to the
+This is a Certbot plugin that uses an integrated DNS server to respond to the
 ``_acme-challenge`` records, so the domain's records do not have to be
 modified.
 
@@ -31,6 +31,11 @@ Debian
 ::
 
     # apt-get install certbot python3-certbot-dns-standalone
+
+Docker
+------
+
+See below.
 
 Usage
 =====
@@ -114,27 +119,37 @@ To renew the certificates add ``certbot renew`` to ``crontab``.
 Usage with Docker
 =================
 
-First, build the certbot image:
+In order to use the latest image published in Docker Hub, run:
 
 ::
 
-    docker build -t certbot /path/to/certbot-dns-standalone/
-
-Next, the certificate:
-
-::
-
-    docker run -it --rm --name certbot \
+    docker run -it --rm --name certbot-dns-standalone \
       -v "/etc/letsencrypt:/etc/letsencrypt" \
       -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
       -p 8080:80 -p 1.2.3.4:53:53/tcp -p 1.2.3.4:53:53/udp \
-      certbot certonly
+      laurik/certbot-dns-standalone:latest certonly
 
 where ``1.2.3.4`` is the IP address to use for responding the challenges. HTTP
 challenges should be directed to port ``8080``.
 
 ``/etc/letsencrypt`` and ``/var/lib/letsencrypt`` need to be mapped to
 permanent storage.
+
+Alternatively, you may also build the plugin image locally by running:
+
+::
+
+    docker build -t certbot-dns-standalone-local /path/to/certbot-dns-standalone/
+
+and then:
+
+::
+
+    docker run -it --rm \
+      -v "/etc/letsencrypt:/etc/letsencrypt" \
+      -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
+      -p 8080:80 -p 1.2.3.4:53:53/tcp -p 1.2.3.4:53:53/udp \
+      certbot-dns-standalone-local certonly
 
 Supported parameters
 ====================
